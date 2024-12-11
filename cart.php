@@ -136,6 +136,11 @@ $user = mysqli_fetch_assoc($resultUser);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="account.php">
                             <i class="bi bi-person-circle"></i> <?= $user['username']; ?>
                         </a>
