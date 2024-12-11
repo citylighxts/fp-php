@@ -132,6 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: #0066ff;
             border-color: #0066ff;
         }
+        .card-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -206,6 +214,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <button type="submit" name="change_password" class="btn btn-custom">
                         <i class="bi bi-lock"></i> Change Password
+                    </button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <form action="delete_account.php" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Delete Account
                     </button>
                 </form>
             </div>
