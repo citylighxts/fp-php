@@ -107,6 +107,19 @@ $user = mysqli_fetch_assoc($resultUser);
             background-color: #ff1a1a;
             border-color: #ff1a1a;
         }
+        .btn-export {
+            background-color: #a7097a;
+            border-color: #a7097a;
+            color: white;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+        .btn-export:hover {
+            background-color: #0066ff;
+            border-color: #0066ff;
+        }
     </style>
 </head>
 <body>
@@ -240,6 +253,22 @@ $user = mysqli_fetch_assoc($resultUser);
             </div>
         <?php endif; ?>
 
+        <?php if (mysqli_num_rows($resultCanva) > 0): ?>
+            <a href="export.php?order_type=canva&user_id=<?= $user_id ?>" class="btn btn-export">
+                <i class="bi bi-file-earmark"></i> Export to PDF
+            </a>
+        <?php endif; ?>
+        <?php if (mysqli_num_rows($resultGpt) > 0): ?>
+            <a href="export.php?order_type=gpt&user_id=<?= $user_id ?>" class="btn btn-export">
+                <i class="bi bi-file-earmark"></i> Export to PDF
+            </a>
+        <?php endif; ?>
+        <?php if (mysqli_num_rows($resultAppleMusic) > 0): ?>
+            <a href="export.php?order_type=appleMusic&user_id=<?= $user_id ?>" class="btn btn-export">
+                <i class="bi bi-file-earmark"></i> Export to PDF
+            </a>
+        <?php endif; ?>
+
         <!-- If no orders, display a message -->
         <?php if (mysqli_num_rows($resultCanva) == 0 && mysqli_num_rows($resultGpt) == 0 && mysqli_num_rows($resultAppleMusic) == 0): ?>
             <p>Your cart is empty. Start shopping now!</p>
@@ -253,8 +282,6 @@ $user = mysqli_fetch_assoc($resultUser);
                 echo "Edit ID: " . $_GET['edit_id'];  // Debugging, lihat apakah ID muncul
             }
         ?>
-
-
     </div>
 
     <!-- Scripts -->
