@@ -131,7 +131,7 @@ $user = mysqli_fetch_assoc($result);
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="help.php" class="btn btn-custom">
+                        <a href="https://instagram.com/shopatcreme" class="btn btn-custom">
                             <i class="bi bi-question-circle"></i> Help & Support
                         </a>
                     </div>
