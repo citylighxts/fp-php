@@ -19,6 +19,20 @@ if (!$user) {
 
 $total_items = 0;
 
+$query_canva_count = "SELECT COUNT(*) as total FROM canvaOrders WHERE user_id = '$user_id'";
+$result_canva_count = mysqli_query($koneksi, $query_canva_count);
+$canva_count = mysqli_fetch_assoc($result_canva_count);
+
+$query_gpt_count = "SELECT COUNT(*) as total FROM gptOrders WHERE user_id = '$user_id'";
+$result_gpt_count = mysqli_query($koneksi, $query_gpt_count);
+$gpt_count = mysqli_fetch_assoc($result_gpt_count);
+
+$query_apple_music_count = "SELECT COUNT(*) as total FROM appleMusicOrders WHERE user_id = '$user_id'";
+$result_apple_music_count = mysqli_query($koneksi, $query_apple_music_count);
+$apple_music_count = mysqli_fetch_assoc($result_apple_music_count);
+
+$total_items = $canva_count['total'] + $gpt_count['total'] + $apple_music_count['total'];
+
 $query_last_purchase = "
     SELECT created_at FROM (
         SELECT created_at FROM canvaOrders WHERE user_id = '$user_id'

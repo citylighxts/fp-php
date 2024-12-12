@@ -1,26 +1,22 @@
 <?php
 session_start();
-include 'database.php'; // Include database connection
+include 'database.php';
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirect to login page if not logged in
+    header('Location: index.php');
     exit;
 }
 
-$user_id = $_SESSION['user_id']; // Get the logged-in user ID
+$user_id = $_SESSION['user_id'];
 
-// Fetch all orders made by the logged-in user (canva, gpt, appleMusic)
 $queryCanva = "SELECT * FROM canvaOrders WHERE user_id = '$user_id'";
 $queryGpt = "SELECT * FROM gptOrders WHERE user_id = '$user_id'";
 $queryAppleMusic = "SELECT * FROM appleMusicOrders WHERE user_id = '$user_id'";
 
-// Execute queries
 $resultCanva = mysqli_query($koneksi, $queryCanva);
 $resultGpt = mysqli_query($koneksi, $queryGpt);
 $resultAppleMusic = mysqli_query($koneksi, $queryAppleMusic);
 
-// Fetch user details for display (Optional)
 $queryUser = "SELECT username FROM users WHERE id = '$user_id'";
 $resultUser = mysqli_query($koneksi, $queryUser);
 $user = mysqli_fetch_assoc($resultUser);
