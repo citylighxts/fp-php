@@ -1,22 +1,19 @@
 <?php
 session_start();
-include 'database.php'; // Include the database connection
+include 'database.php';
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirect to login page if not logged in
+    header('Location: index.php');
     exit;
 }
 
-// Process form submission
 if (isset($_POST['submit'])) {
-    $product = $_GET['product']; // Get the product type (canva, gpt, apple_music)
-    $plan_name = $_POST['plan_name']; // Get the selected plan
-    $email = $_POST['email']; // Get the user's email
-    $foto = $_FILES['foto']['name']; // Get the uploaded photo
-    $tmp = $_FILES['foto']['tmp_name']; // Temporary file location
+    $product = $_GET['product'];
+    $plan_name = $_POST['plan_name'];
+    $email = $_POST['email'];
+    $foto = $_FILES['foto']['name'];
+    $tmp = $_FILES['foto']['tmp_name'];
 
-    // Ensure the photo is uploaded
     $fotoPath = 'upload/' . basename($foto);
     if (move_uploaded_file($tmp, $fotoPath)) {
         echo "File berhasil diupload!";
@@ -25,27 +22,22 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    // Prepare data for database insertion based on the product type
     $user_id = $_SESSION['user_id'];
     
     if ($product == 'apple_music') {
-        // Insert data into appleMusicOrders table
         $query = "INSERT INTO appleMusicOrders (user_id, plan_name, email, proof_photo) 
                   VALUES ('$user_id', '$plan_name', '$email', '$foto')";
     } elseif ($product == 'canva') {
-        // Insert data into canvaOrders table
         $query = "INSERT INTO canvaOrders (user_id, plan_name, email, proof_photo) 
                   VALUES ('$user_id', '$plan_name', '$email', '$foto')";
     } elseif ($product == 'gpt') {
-        // Insert data into gptOrders table
         $query = "INSERT INTO gptOrders (user_id, plan_name, email, proof_photo) 
                   VALUES ('$user_id', '$plan_name', '$email', '$foto')";
     }
 
-    // Execute the query and handle result
     if (mysqli_query($koneksi, $query)) {
         echo "Order berhasil dilakukan!";
-        header("Location: catalog.php"); // Redirect after successful order
+        header("Location: catalog.php");
         exit;
     } else {
         echo "Terjadi kesalahan saat memproses pesanan.";
@@ -135,7 +127,6 @@ if (isset($_POST['submit'])) {
 <div class="container mt-5">
     <h2>Order Subscription Plan</h2>
     <form action="order.php?product=<?= $_GET['product'] ?>" method="post" enctype="multipart/form-data">
-        <!-- Plan Selection -->
         <div class="mb-3">
             <label for="plan_name" class="form-label">Select Plan</label>
             <select name="plan_name" class="form-control" required>
@@ -164,22 +155,18 @@ if (isset($_POST['submit'])) {
             </select>
         </div>
 
-        <!-- Email Input -->
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
             <input type="email" name="email" class="form-control" required>
         </div>
 
-        <!-- File Upload (Proof of Transaction) -->
         <div class="mb-3">
             <label for="foto" class="form-label">Upload Proof of Transaction (Photo)</label>
             <input type="file" name="foto" class="form-control" accept="image/*" required>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit" name="submit" class="btn btn-custom">Submit Order</button>
 
-        <!-- Back Button -->
         <a href="catalog.php" class="btn btn-secondary">Back to Catalog</a>
     </form>
 </div>

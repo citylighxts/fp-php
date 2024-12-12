@@ -3,15 +3,12 @@ include 'database.php';
 
 $id = $_GET['id'];
 
-// Ambil nama foto untuk dihapus
 $query_foto = "SELECT foto FROM siswa WHERE id_siswa = $id";
 $result_foto = mysqli_query($koneksi, $query_foto);
 $siswa = mysqli_fetch_assoc($result_foto);
 
-// Hapus foto dari folder
 unlink('upload/' . $siswa['foto']);
 
-// Hapus data dari database
 $query = "DELETE FROM siswa WHERE id_siswa = $id";
 mysqli_query($koneksi, $query);
 

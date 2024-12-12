@@ -1,15 +1,13 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirect to login page if not logged in
+    header('Location: index.php');
     exit;
 }
 
-include 'database.php'; // Include the database connection
+include 'database.php';
 
-// Fetch user details from the database (optional)
 $user_id = $_SESSION['user_id'];
 $query = "SELECT username FROM users WHERE id = '$user_id'";
 $result = mysqli_query($koneksi, $query);
@@ -83,11 +81,10 @@ $user = mysqli_fetch_assoc($result);
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">
-                <img src="logo.png" alt="Shopatcreme Logo"> <!-- Replace with your logo -->
+                <img src="logo.png" alt="Shopatcreme Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -114,10 +111,8 @@ $user = mysqli_fetch_assoc($result);
         </div>
     </nav>
 
-    <!-- Catalog Content -->
     <div class="container">
         <div class="row">
-            <!-- Canva Product -->
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -147,7 +142,6 @@ $user = mysqli_fetch_assoc($result);
                 </div>
             </div>
 
-            <!-- ChatGPT Product -->
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -171,7 +165,6 @@ $user = mysqli_fetch_assoc($result);
                 </div>
             </div>
 
-            <!-- Apple Music Product -->
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -195,7 +188,6 @@ $user = mysqli_fetch_assoc($result);
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

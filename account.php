@@ -1,55 +1,46 @@
 <?php
 session_start();
 
-// Enable error reporting to see issues clearly
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirect to login page if not logged in
+    header('Location: index.php');
     exit;
 }
 
-include 'database.php'; // Include the database connection
+include 'database.php';
 
-// Fetch user details from the database (username and password only)
 $user_id = $_SESSION['user_id'];
 $query = "SELECT username, password FROM users WHERE id = '$user_id'";
 $result = mysqli_query($koneksi, $query);
 
-// Check if the query returned a result
 if ($result && mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
 } else {
     die("User not found!");
 }
 
-// Handle profile update and password change
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Handle profile update (only username)
     if (isset($_POST['update_profile'])) {
         $username = mysqli_real_escape_string($koneksi, $_POST['username']);
 
-        // Update the username in the database
         $update_query = "UPDATE users SET username='$username' WHERE id='$user_id'";
 
         if (mysqli_query($koneksi, $update_query)) {
             $success_msg = "Profile updated successfully!";
-            $user['username'] = $username; // Update session user data
+            $user['username'] = $username;
         } else {
             $error_msg = "Error updating profile!";
         }
     }
 
-    // Handle password change
     if (isset($_POST['change_password'])) {
         $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
 
-        // Verify the current password
         if (password_verify($current_password, $user['password'])) {
             if ($new_password === $confirm_password) {
                 $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
@@ -144,11 +135,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">
-                <img src="logo.png" alt="Shopatcreme Logo"> <!-- Replace with your logo -->
+                <img src="logo.png" alt="Shopatcreme Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -170,14 +160,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </nav>
 
-    <!-- Account Information -->
     <div class="container">
         <div class="card">
             <div class="card-header">
                 Account Settings
             </div>
             <div class="card-body">
-                <!-- Success or Error messages -->
                 <?php if (isset($success_msg)): ?>
                     <div class="alert alert-success"><?= $success_msg; ?></div>
                 <?php endif; ?>
@@ -228,7 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

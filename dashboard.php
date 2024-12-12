@@ -1,19 +1,39 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirect to login page if not logged in
+    header('Location: index.php');
     exit;
 }
 
 include 'database.php';
 
-// Fetch user details from the database (Optional: customize as needed)
 $user_id = $_SESSION['user_id'];
 $query = "SELECT username FROM users WHERE id = '$user_id'";
 $result = mysqli_query($koneksi, $query);
 $user = mysqli_fetch_assoc($result);
+
+if (!$user) {
+    die('User not found.');
+}
+
+$total_items = 0;
+
+$query_last_purchase = "
+    SELECT created_at FROM (
+        SELECT created_at FROM canvaOrders WHERE user_id = '$user_id'
+        UNION ALL
+        SELECT created_at FROM gptOrders WHERE user_id = '$user_id'
+        UNION ALL
+        SELECT created_at FROM appleMusicOrders WHERE user_id = '$user_id'
+    ) AS all_orders
+    ORDER BY created_at DESC LIMIT 1
+";
+$result_last_purchase = mysqli_query($koneksi, $query_last_purchase);
+$last_purchase = mysqli_fetch_assoc($result_last_purchase);
+$last_purchase_date = $last_purchase ? $last_purchase['created_at'] : 'No purchases yet';
+
+session_regenerate_id(true);
 ?>
 
 <!DOCTYPE html>
@@ -84,11 +104,10 @@ $user = mysqli_fetch_assoc($result);
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">
-                <img src="logo.png" alt="Shopatcreme Logo"> <!-- Replace with your logo -->
+                <img src="logo.png" alt="Shopatcreme Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -97,7 +116,7 @@ $user = mysqli_fetch_assoc($result);
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="account.php">
-                            <i class="bi bi-person-circle"></i> <?= $user['username']; ?> <!-- Display the logged-in user's name -->
+                            <i class="bi bi-person-circle"></i> <?= $user['username']; ?>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -110,31 +129,62 @@ $user = mysqli_fetch_assoc($result);
         </div>
     </nav>
 
-    <!-- Dashboard Content -->
     <div class="container">
         <div class="card">
             <div class="card-header">
                 Welcome, <?= $user['username']; ?>!
             </div>
+
             <div class="card-body">
                 <h4 class="text-center">Your Dashboard</h4>
-                <p class="text-center">This is your personal dashboard. You can manage your account, view your cart, and much more!</p>
+                <p class="text-center">Welcome back, <strong><?= htmlspecialchars($user['username']); ?></strong>! We're glad to have you here.</p>
+                <p class="text-center">From here, you can easily manage your account, check your cart, or start shopping for new items!</p>
+
                 <div class="row">
                     <div class="col-md-4">
-                        <a href="cart.php" class="btn btn-custom">
-                            <i class="bi bi-box"></i> View Cart
-                        </a>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Your Cart</h5>
+                                <p class="card-text">Manage your items in the cart and proceed to checkout.</p>
+                                <a href="cart.php" class="btn btn-custom">
+                                    <i class="bi bi-box"></i> View Cart (<?= $total_items; ?> items)
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="col-md-4">
-                        <a href="catalog.php" class="btn btn-custom">
-                            <i class="bi bi-shop"></i> Shop Now
-                        </a>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Shop Now</h5>
+                                <p class="card-text">Explore our catalog and start shopping for new products.</p>
+                                <a href="catalog.php" class="btn btn-custom">
+                                    <i class="bi bi-shop"></i> Shop Now
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="col-md-4">
-                        <a href="https://instagram.com/shopatcreme" class="btn btn-custom">
-                            <i class="bi bi-question-circle"></i> Help & Support
-                        </a>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Need Help?</h5>
+                                <p class="card-text">If you have any questions or need assistance, we're here to help!</p>
+                                <a href="https://instagram.com/shopatcreme" class="btn btn-custom" target="_blank">
+                                    <i class="bi bi-question-circle"></i> Help & Support
+                                </a>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="text-center">Quick Overview</h5>
+                    <p class="text-center">Here’s a quick look at your recent activity:</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Total items in cart: <strong><?= $total_items; ?></strong></li>
+                        <li class="list-group-item">Last purchase: <strong><?= $last_purchase_date; ?></strong></li>
+                    </ul>
                 </div>
             </div>
         </div>

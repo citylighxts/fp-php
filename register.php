@@ -3,19 +3,16 @@ include 'database.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the form data and sanitize inputs
     $username = mysqli_real_escape_string($koneksi, $_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     
-    // Check if password and confirm password match
     if ($password !== $confirm_password) {
         $_SESSION['register_error'] = "Passwords do not match!";
         header('Location: register.php');
         exit;
     }
 
-    // Check if username already exists
     $query = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($koneksi, $query);
     if (mysqli_num_rows($result) > 0) {
@@ -24,10 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // Hash the password for secure storage
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert the user into the database
     $query = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
     if (mysqli_query($koneksi, $query)) {
         $_SESSION['register_success'] = "Registration successful! You can now log in.";

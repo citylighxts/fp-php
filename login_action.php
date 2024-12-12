@@ -11,13 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = mysqli_fetch_assoc($result);
 
     if ($user && password_verify($password, $user['password'])) {
-        // Password is correct
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        header('Location: dashboard.php'); // Redirect to user dashboard
+        header('Location: dashboard.php');
         exit;
     } else {
-        // Invalid credentials
         $_SESSION['login_error'] = 'Invalid username or password';
         header('Location: index.php');
         exit;
