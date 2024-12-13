@@ -93,16 +93,6 @@ $user = mysqli_fetch_assoc($resultUser);
             background-color: #0047b3;
             border-color: #0047b3;
         }
-        .btn-remove {
-            background-color: #ff4d4d;
-            border-color: #ff4d4d;
-            color: white;
-            border-radius: 10px;
-        }
-        .btn-remove:hover {
-            background-color: #ff1a1a;
-            border-color: #ff1a1a;
-        }
         .btn-export {
             background-color: #a7097a;
             border-color: #a7097a;
@@ -168,7 +158,6 @@ $user = mysqli_fetch_assoc($resultUser);
                                 <th>Plan</th>
                                 <th>Email</th>
                                 <th>Transaction Proof</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -177,11 +166,6 @@ $user = mysqli_fetch_assoc($resultUser);
                                     <td><?= htmlspecialchars($row['plan_name']); ?></td>
                                     <td><?= htmlspecialchars($row['email']); ?></td>
                                     <td><img src="upload/<?= htmlspecialchars($row['proof_photo']); ?>" alt="Proof" width="100"></td>
-                                    <td>
-                                        <a href="cart.php?remove_id=<?= $row['id']; ?>" class="btn btn-remove">
-                                            Remove
-                                        </a>
-                                    </td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
@@ -203,7 +187,6 @@ $user = mysqli_fetch_assoc($resultUser);
                                 <th>Plan</th>
                                 <th>Email</th>
                                 <th>Transaction Proof</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -212,11 +195,6 @@ $user = mysqli_fetch_assoc($resultUser);
                                     <td><?= htmlspecialchars($row['plan_name']); ?></td>
                                     <td><?= htmlspecialchars($row['email']); ?></td>
                                     <td><img src="upload/<?= htmlspecialchars($row['proof_photo']); ?>" alt="Proof" width="100"></td>
-                                    <td>
-                                        <a href="cart.php?remove_id=<?= $row['id']; ?>" class="btn btn-remove">
-                                            Remove
-                                        </a>
-                                    </td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>

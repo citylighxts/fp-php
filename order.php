@@ -16,7 +16,6 @@ if (isset($_POST['submit'])) {
 
     $fotoPath = 'upload/' . basename($foto);
     if (move_uploaded_file($tmp, $fotoPath)) {
-        echo "File berhasil diupload!";
     } else {
         echo "Terjadi kesalahan saat mengupload file.";
         exit;
@@ -30,13 +29,13 @@ if (isset($_POST['submit'])) {
     } elseif ($product == 'canva') {
         $query = "INSERT INTO canvaOrders (user_id, plan_name, email, proof_photo) 
                   VALUES ('$user_id', '$plan_name', '$email', '$foto')";
-    } elseif ($product == 'gpt') {
+    } elseif ($product == 'chatgpt') {
         $query = "INSERT INTO gptOrders (user_id, plan_name, email, proof_photo) 
                   VALUES ('$user_id', '$plan_name', '$email', '$foto')";
     }
 
     if (mysqli_query($koneksi, $query)) {
-        echo "Order berhasil dilakukan!";
+        $_SESSION['success_message'] = "Order berhasil dilakukan! Masuk ke cart.";
         header("Location: catalog.php");
         exit;
     } else {

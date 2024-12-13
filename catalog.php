@@ -12,6 +12,11 @@ $user_id = $_SESSION['user_id'];
 $query = "SELECT username FROM users WHERE id = '$user_id'";
 $result = mysqli_query($koneksi, $query);
 $user = mysqli_fetch_assoc($result);
+
+if (isset($_SESSION['success_message'])) {
+    echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
+    unset($_SESSION['success_message']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +81,13 @@ $user = mysqli_fetch_assoc($result);
         .btn-custom:hover {
             background-color: #0066ff;
             border-color: #0066ff;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+            border-radius: 10px;
+            padding: 10px;
         }
     </style>
 </head>
