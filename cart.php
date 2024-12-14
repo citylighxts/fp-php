@@ -116,9 +116,6 @@ $user = mysqli_fetch_assoc($resultUser);
             <a class="navbar-brand" href="dashboard.php">
                 <img src="logo.png" alt="Shopatcreme Logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -255,12 +252,6 @@ $user = mysqli_fetch_assoc($resultUser);
                 Go to Catalog
             </a>
         <?php endif; ?>
-
-        <?php
-            if (isset($_GET['edit_id'])) {
-                echo "Edit ID: " . $_GET['edit_id'];  // Debugging, lihat apakah ID muncul
-            }
-        ?>
     </div>
 
     <!-- Scripts -->
