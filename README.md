@@ -1,15 +1,6 @@
 # Description
 
-This project is a web-based application for managing digital
-subscription orders such as Canva, GPT, and Apple Music. Users
-can register, choose subscription packages, upload proof of
-payment, and manage t heir orders in a single platform. The app
-includes features for updating account credentials and expor ting
-order histor y as PDF for documentation. Each ser vice stores orders
-in separate tables for better organization, and all user data is
-automatically removed upon account deletion. The project is par t
-of a final assignment for t he Web Programming course at Institut
-Teknologi Sepuluh Nopember (ITS).
+This project is a web-based application for managing digital subscription orders such as Canva, GPT, and Apple Music. Users can register, choose subscription packages, upload proof of payment, and manage their orders in a single platform. The app includes features for updating account credentials and expor ting order history as PDF for documentation. Each ser vice stores orders in separate tables for better organization, and all user data is automatically removed upon account deletion. The project is part of a final assignment for the Web Programming course at Institut Teknologi Sepuluh Nopember (ITS).
 
 # Entity Relationship Diagram (ERD)
 
